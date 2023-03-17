@@ -15,7 +15,69 @@ public class Stock
     private int volume;
     private PriorityQueue<TradeOrder> buyOrders, sellOrders;
 
-    // TODO complete class
+    public Stock(String symbol, String name, double price) {
+        stockSymbol = symbol;
+        companyName = name;
+        loPrice = hiPrice = lastPrice = price;
+        volume = 0;
+        buyOrders = new PriorityQueue<>();
+        sellOrders = new PriorityQueue<>();
+    }
+
+    protected void executeOrders() {
+        while(!buyOrders.isEmpty() && !sellOrders.isEmpty()) {
+            TradeOrder buy = buyOrders.peek(), sell = sellOrders.peek();
+
+            double price;
+            if(buy.isLimit() && sell.isLimit() &&
+                    buy.getPrice() >= sell.getPrice()) {
+                price = sell.getPrice();
+            }
+            else if(buy.isMarket() && sell.isMarket()) {
+                price = lastPrice;
+            }
+            else {
+                price = buy.isLimit() ? buy.getPrice() : sell.getPrice();
+            }
+
+            int num = Math.min(buy.getShares(), sell.getShares());
+
+            buy.subtractShares(num);
+            sell.subtractShares(num);
+            if(buyOrders.peek().getShares() == 0) buyOrders.poll();
+            if(sellOrders.peek().getShares() == 0) sellOrders.poll();
+
+            loPrice = Math.min(loPrice, price);
+            hiPrice = Math.max(hiPrice, price);
+            lastPrice = price;
+            volume += num;
+
+            String priceStr = money.format(price), tot = money.format(price * num);
+            buy.getTrader().recieveMessage("You bought: " + num + " " + stockSymbol + " at " + priceStr + " amt " + tot);
+            buy.getTrader().recieveMessage("You sold: " + num + " " + stockSymbol + " at " + priceStr + " amt " + tot);
+
+            if(buyOrders.peek().isLimit() && sellOrders.peek().isLimit() &&
+                    buyOrders.peek().getPrice() < sellOrders.peek().getPrice()) {
+                return;
+            }
+        }
+    }
+
+    public String getQuote() {
+        return companyName + " (" + stockSymbol + ")\n" +
+                "Price: " + lastPrice + " hi: " + hiPrice + " lo: " + loPrice + " vol: " + volume + "\n" +
+                "Ask: " + (sellOrders.isEmpty() ? "none " : (sellOrders.peek().getPrice() + " size: " + sellOrders.peek().getShares() + " ")) +
+                "Bid: " + (buyOrders.isEmpty() ? "none" : (buyOrders.peek().getPrice() + " size: " + buyOrders.peek().getShares()));
+
+    }
+
+    public void placeOrder(TradeOrder order) {
+        if(order.isBuy()) buyOrders.add(order);
+        else sellOrders.add(order);
+        order.getTrader().recieveMessage("New order: " + order.isBuy() ? "Buy " : "Sell " + stockSymbol + " (" + companyName + ")\n" +
+                order.getShares() + " shares at " + order.isMarket() ? "market " : ("$" + money.format(order.getPrice())));
+        executeOrders();
+    }
 
     
     //

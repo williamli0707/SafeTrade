@@ -11,7 +11,7 @@ public class Trader implements Comparable<Trader>
     private TraderWindow myWindow;
     private Queue<String> mailbox;
 
-    // TODO complete class
+
 
 
     //

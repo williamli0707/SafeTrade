@@ -25,7 +25,7 @@ public class PriceComparator
      * descending order. The order of comparison depends on the value of a given
      * parameter. Sets the private boolean ascending flag to asc.
      * 
-     * @param asc
+     * @param asc comparison operator
      */
     public PriceComparator(boolean asc) // asc = ascending
     {
@@ -69,12 +69,14 @@ public class PriceComparator
         {
             if (ascending)
             {
-                int x = (int)Math.round((order1.getPrice() * 100 - order2.getPrice() * 100));
+                int x = (int)Math.round((order1.getPrice() * 100 
+                - order2.getPrice() * 100));
                 return x;
             }
             else
             {
-                int x = (int)Math.round((order2.getPrice() * 100 - order1.getPrice() * 100));
+                int x = (int)Math.round((order2.getPrice() * 100 - 
+                order1.getPrice() * 100));
                 return x;
             }
         }

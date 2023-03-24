@@ -46,7 +46,7 @@ public class Brokerage implements Login
      * @param trader the trader who requested a quote.
      */
     public void getQuote(String symbol, Trader trader) {
-        trader.recieveMessage(exchange.getQuote(symbol));
+        trader.receiveMessage(exchange.getQuote(symbol));
     }
 
     /**
@@ -66,7 +66,7 @@ public class Brokerage implements Login
         if(loggedTraders.contains(trader)) return -3;
         loggedTraders.add(trader);
         trader.openWindow();
-        trader.recieveMessage("Welcome to SafeTrade!");
+        trader.receiveMessage("Welcome to SafeTrade!");
         return 0;
     }
 

@@ -92,8 +92,8 @@ public class Stock
             volume += num;
 
             String priceStr = money.format(price), tot = money.format(price * num);
-            buy.getTrader().recieveMessage("You bought: " + num + " " + stockSymbol + " at " + priceStr + " amt " + tot);
-            buy.getTrader().recieveMessage("You sold: " + num + " " + stockSymbol + " at " + priceStr + " amt " + tot);
+            buy.getTrader().receiveMessage("You bought: " + num + " " + stockSymbol + " at " + priceStr + " amt " + tot);
+            buy.getTrader().receiveMessage("You sold: " + num + " " + stockSymbol + " at " + priceStr + " amt " + tot);
 
             if(buyOrders.peek().isLimit() && sellOrders.peek().isLimit() &&
                     buyOrders.peek().getPrice() < sellOrders.peek().getPrice()) {
@@ -139,8 +139,8 @@ public class Stock
     public void placeOrder(TradeOrder order) {
         if(order.isBuy()) buyOrders.add(order);
         else sellOrders.add(order);
-        order.getTrader().recieveMessage("New order: " + order.isBuy() ? "Buy " : "Sell " + stockSymbol + " (" + companyName + ")\n" +
-                order.getShares() + " shares at " + order.isMarket() ? "market " : ("$" + money.format(order.getPrice())));
+        order.getTrader().receiveMessage(("New order: " + (order.isBuy() ? "Buy " : ("Sell " + stockSymbol + " (" + companyName + ")\n")) +
+                order.getShares() + " shares at " + (order.isMarket() ? "market " : ("$" + money.format(order.getPrice())))));
         executeOrders();
     }
 
@@ -163,7 +163,8 @@ public class Stock
     {
         return loPrice;
     }
-    
+
+
     protected double getHiPrice()
     {
         return hiPrice;

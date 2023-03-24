@@ -56,6 +56,7 @@ public class StockExchange
         Trader trader = tradeOrder.getTrader();
         if(!listedStocks.containsKey(symbol)) {
             trader.receiveMessage(symbol + " not found.");
+            return;
         }
         listedStocks.get(symbol).placeOrder(tradeOrder);
     }

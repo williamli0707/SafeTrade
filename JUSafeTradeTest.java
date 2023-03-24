@@ -200,7 +200,7 @@ public class JUSafeTradeTest
 
         order = new TradeOrder( trader, "ABCD", true, true, 100, 123.99 );
         safe.placeOrder( order );
-        // System.err.println(mbox);
+//         System.err.println(mbox);
         assertTrue( "<<< Trader.placeOrder - invalid message >>>", mbox.peek()
                 .contains( "ABCD" ) );
     }

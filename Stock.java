@@ -32,8 +32,8 @@ public class Stock
         companyName = name;
         loPrice = hiPrice = lastPrice = price;
         volume = 0;
-        buyOrders = new PriorityQueue<>();
-        sellOrders = new PriorityQueue<>();
+        buyOrders = new PriorityQueue<>(new PriceComparator());
+        sellOrders = new PriorityQueue<>(new PriceComparator());
     }
 
     /**
@@ -139,7 +139,7 @@ public class Stock
     public void placeOrder(TradeOrder order) {
         if(order.isBuy()) buyOrders.add(order);
         else sellOrders.add(order);
-        order.getTrader().receiveMessage(("New order: " + (order.isBuy() ? "Buy " : ("Sell " + stockSymbol + " (" + companyName + ")\n")) +
+        order.getTrader().receiveMessage(("New order: " + ((order.isBuy() ? ("Buy ") : ("Sell ")) + stockSymbol + " (" + companyName + ")\n") +
                 order.getShares() + " shares at " + (order.isMarket() ? "market " : ("$" + money.format(order.getPrice())))));
         executeOrders();
     }

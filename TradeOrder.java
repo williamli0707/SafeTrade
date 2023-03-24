@@ -188,7 +188,8 @@ public class TradeOrder
         {
             try
             {
-                str += separator + field.getType().getName() + " " + field.getName() + ":"
+                str += separator + field.getType().getName() + " " + 
+                field.getName() + ":"
                     + field.get(this);
             }
             catch (IllegalAccessException ex)

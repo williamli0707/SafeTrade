@@ -2,6 +2,12 @@ import java.lang.reflect.*;
 import java.util.*;
 /**
  * Represents a brokerage.
+ * @author William Li
+ * @author Edwin Li
+ * @version 3/24/23
+ * @author Assignment: JM Chapter 19 - SafeTrade
+ *
+ * @author Sources: None
  */
 public class Brokerage implements Login
 {
@@ -28,13 +34,20 @@ public class Brokerage implements Login
      * trader to the map of all traders (using the screen name as the key).
      * @param name the screen name of the trader.
      * @param password the password for the trader.
-     * @return
+     * @return an error code or 0 for success.
      */
     public int addUser(String name, String password) {
-        int l1 = name.length(), l2 = password.length();
-        if(l1 < 4 || l1 > 10) return -1;
-        if(l2 < 2 || l2 > 10) return -2;
-        if(traders.containsKey(name)) return -3;
+        int l1 = name.length();
+        int l2 = password.length();
+        if (l1 < 4 || l1 > 10) {
+            return -1;
+        }
+        if (l2 < 2 || l2 > 10) {
+            return -2;
+        }
+        if (traders.containsKey(name)) {
+            return -3;
+        }
         traders.put(name, new Trader(this, name, password));
         return 0;
     }
@@ -57,13 +70,19 @@ public class Brokerage implements Login
      * traders.
      * @param name the screen name of the trader.
      * @param password the password for the trader.
-     * @return
+     * @return an error code or 0 for success.
      */
     public int login(String name, String password) {
-        if(!traders.containsKey(name)) return -1;
-        if(!traders.get(name).getPassword().equals(password)) return -2;
+        if (!traders.containsKey(name)) {
+            return -1;
+        }
+        if (!traders.get(name).getPassword().equals(password)) {
+            return -2;
+        }
         Trader trader = traders.get(name);
-        if(loggedTraders.contains(trader)) return -3;
+        if (loggedTraders.contains(trader)) {
+            return -3;
+        }
         loggedTraders.add(trader);
         trader.openWindow();
         trader.receiveMessage("Welcome to SafeTrade!");
@@ -90,16 +109,29 @@ public class Brokerage implements Login
     //
     // The following are for test purposes only
     //
+
+    /**
+     * Testing purposes only
+     * @return testing only
+     */
     protected Map<String, Trader> getTraders()
     {
         return traders;
     }
 
+    /**
+     * Testing purposes only
+     * @return testing only
+     */
     protected Set<Trader> getLoggedTraders()
     {
         return loggedTraders;
     }
 
+    /**
+     * Testing purposes only
+     * @return testing only
+     */
     protected StockExchange getExchange()
     {
         return exchange;

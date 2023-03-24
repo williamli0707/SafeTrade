@@ -18,13 +18,12 @@ import junit.framework.JUnit4TestAdapter;
  *   StockExchange
  *   Stock
  *
- * @author TODO Name of principal author
- * @author TODO Name of group member
- * @author TODO Name of group member
- * @version TODO date
+ * @author William Li
+ * @author Edwin Li
+ * @version 3/24/23
  * @author Assignment: JM Chapter 19 - SafeTrade
  *
- * @author Sources: TODO sources
+ * @author Sources: None
  *
  */
 public class JUSafeTradeTest
@@ -212,7 +211,34 @@ public class JUSafeTradeTest
         assertNotNull( trader.toString() );
     }
 
+    @Test
+    public void BrokerageTest() {
+        StockExchange se = new StockExchange();
+        Brokerage b = new Brokerage(se);
+        assertEquals(b.addUser("name1", "password1"), 0);
+        assertEquals(b.addUser("name1", "password1"), -3);
+        assertEquals(b.addUser("n", "password1"), -1);
+        assertEquals(b.addUser("name", "password1sdfnkdsnfkdsf"), -2);
+        
+        assertEquals(b.login("nasdfsf", "password1"), -1);
+        assertEquals(b.login("name1", "password"), -2);
+        assertEquals(b.login("name1", "password1"), 0);
+        assertEquals(b.login("name1", "password1"), -3);
 
+        assertNotNull(b.getTraders());
+        assertNotNull(b.getLoggedTraders());
+        assertNotNull(b.toString());
+    }
+
+    @Test
+    public void StockTest() {
+        Stock stock = new Stock("ABCD", "ABCD Company", 5.5);
+        stock.executeOrders();
+        assertNotNull(stock.toString());
+        assertNotNull(stock.getBuyOrders());
+        assertNotNull(stock.getSellOrders());
+    }
+    
 
 }
 

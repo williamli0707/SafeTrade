@@ -239,6 +239,11 @@ public class JUSafeTradeTest
         assertNotNull(stock.getSellOrders());
     }
     
+    @Test
+    public void tradeOrderTest()
+    {
+        
+    }
 
 }
 
